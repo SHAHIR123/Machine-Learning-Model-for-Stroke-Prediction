@@ -1,34 +1,38 @@
-import json
-import os
+import numpy as np
+from flask import Flask, request, jsonify, render_template
+import pickle
+
+
 from flask import Flask,jsonify,request, render_template
-from flask_cors import CORS
-from predictor import stroke_predictor
+
 
 app = Flask(__name__)
-CORS(app)
+model = pickle.load(open('model.pkl', 'rb'))
 
+@app.route("/")
 
-
-@app.route("/", methods=['GET'])
-
-def default():
+def home():
   return render_template('index.html')
 
-@app.route("/stroke/",methods=['GET'])
-def return_stroke():
-    age = request.args.get('age')
-    hypertension = request.args.get('hypertension')
-    heart_disease = request.args.get('heart_disease')
-    avg_glucose_level = request.args.get('avg_glucose_level')
-    bmi = request.args.get('bmi')
-    stroke = stroke_predictor().predict(age, hypertension, heart_disease, avg_glucose_level, bmi) 
-    if stroke==0:
-        return("Low Stroke Possibility")
+# This function to convert prediction values to LOW or HIGH
+def convert(x):
+    if x==0:
+        return("LOW")
     else:
-        return("High Stroke Possibility")
-   
+        return("HIGH")
+
+@app.route("/predict",methods=['POST'])
+def predict():
+    int_features = [x for x in request.form.values()]
+    final_features = [np.array(int_features)]
+    prediction = model.predict(final_features)
+    # Convert 0 or 1 to LOW or HIGH
+    result= convert(prediction)
+    return render_template('index.html', prediction_text ="Stroke probability is {}".format(result))
+
+
 
 if __name__ == "__main__":
-    app.run() 
+    app.run(debug=True) 
 
 

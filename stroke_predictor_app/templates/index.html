@@ -1,88 +1,43 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="assets/style.css">
-    <script src="assets/code.js"></script>
-    <title>Heading</title>
-  </head>
-  <body>
-    <br>
-    <a href="index.html"><img class="logo" src="assets/final_v1.png" alt=""></a>
-    <br>
-    <div class="container main">
-  <div class="jumbotron" id="holder">
-    <h1 class='main_heading'> ML Model for Stroke Prediction </h1>
-    <h3> Predict stroke possibility </h3>
-    <h3> This just for research purpose only. Not for the purpose of clinical diagnosis</h3>
-    
-    
-    <br>
-    <div class="instructions">
-      <h2>Instructions: </h2>
-      <p>1. Add Age, avg_glucose_level and BMI as actual measurements. </p>
-      <p>2. Use 0 for No and 1 for Yes in hypertension and heart_disease fields.</p>
-    </div>
-    <br>
-    <br>
-    <form class="form-horizontal">
-      <div class="form-group">
-        <label class="control-label col-sm-2" for="email">age:</label>
-        <div class="col-sm-10">
-          <input  class="form-control" id="feature1" placeholder=" Enter age" >
-        </div>
-      </div>
-      <div class="form-group">
-        <label class="control-label col-sm-2" >hypertension:</label>
-        <div class="col-sm-10">
-          <input  class="form-control" id="feature2" placeholder=" Enter hypertension status: 0 for NO & 1 for YES" >
-        </div>
-      </div>
-      <div class="form-group">
-        <label class="control-label col-sm-2" >heart_disease:</label>
-        <div class="col-sm-10">
-          <input class="form-control" id="feature3" placeholder=" Enter heart_disease status:0 for NO & 1 for YES" >
-        </div>
-      </div>
-       <div class="form-group">
-        <label class="control-label col-sm-2" >avg_glucose_level:</label>
-        <div class="col-sm-10">
-          <input class="form-control" id="feature4" placeholder=" Enter avg_glucose_level" >
-        </div>
-      </div>
-       <div class="form-group">
-        <label class="control-label col-sm-2" >bmi:</label>
-        <div class="col-sm-10">
-          <input class="form-control" id="feature5" placeholder=" Enter bmi" >
-        </div>
-      </div>
+<html>
+<!--From https://codepen.io/frytyler/pen/EGdtg-->
 
-      <div class="form-group">
-        <div class="col-sm-offset-2 col-sm-10">
-          <button type="submit" class="button btn btn-default">Submit</button>
-        </div>
-      </div>
+<head>
+  <meta charset="UTF-8">
+  <title>ML API</title>
+  <link href='https://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Arimo' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Hind:300' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+<body>
+  
+    <div class="login">    
+    <h3>STROKE POSSIBILITY ANALYSIS</h3>
+    <!-- Main Input For Receiving Query to ML -->
+    <form action="{{ url_for('predict')}}" method="post">
+
+      <input type="text" name="Age" placeholder=" Enter your age" required="required" />
+      <input type="text" name="Hyper Tension History" placeholder=" Enter 1 if you have hypertension OR 0 if not"
+        required="required" />
+      <input type="text" name="Heart Disease History"
+        placeholder=" Enter 1 if you have hear disease history OR 0 if not" required="required" />
+      <input type="text" name="Average Glucose Level" placeholder=" Enter avg_glucose_level" required="required" />
+      <input type="text" name="BMI" placeholder=" Enter your bmi" required="required" />
+
+      <button type="submit" class="btn btn-primary btn-block btn-large">Predict</button>
     </form>
-    <h2 class="result"></h2>
+
+    <br>
+    <br>
+    {{prediction_text}}
+    <br>
+    <h5> This just for research purpose only. Not for the purpose of clinical diagnosis</h5>
   </div>
-</div>
+  
+</body>
 
-<!-- Footer -->
-<footer class="page-footer font-small blue">
-
-  <div class="footer-copyright text-center py-3">
-    <div class="bottom">
-      <p><a href="#">Artificial Analysis | Stroke Prediction- Machine Learning Model</a></p>
-    </div>
-  </div>
-
-</footer>
-<!-- Footer -->
-
-
-  </body>
 </html>

@@ -2,3 +2,5 @@ __pycache__
 env
 draf_traing
 .ipynb_checkpoints/
+
+.~lock.stroke_data.csv#
